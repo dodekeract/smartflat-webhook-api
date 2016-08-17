@@ -1,0 +1,44 @@
+{
+  "name": "smartflat-webhook-api",
+  "version": "0.0.1",
+  "description": "Adds WebHook Capability To SmartFlat Core",
+  "main": "build/",
+  "dependencies": {
+    "koa-body": "^1.4.0",
+    "koa-router": "^5.4.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.11.4",
+    "babel-preset-es2015": "^6.13.2",
+    "nodemon": "^1.10.0"
+  },
+  "scripts": {
+    "test": "npm run build --silent && nyc --require babel-core/register mocha",
+    "build": "babel --presets es2015 source/ -d build/",
+    "prepublish": "npm run build",
+    "postpublish": "PACKAGE_VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[\",]//g' | tr -d '[[:space:]]') && git tag $PACKAGE_VERSION && git push --tags",
+    "watch": "nodemon --watch source --exec \"npm run build --silent\"",
+    "watch-test": "nodemon --watch source --watch test --exec \"npm run test --silent\"",
+    "travis": "npm run test && nyc report --reporter=text-lcov | coveralls"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dodekeract/smartflat-webhook-api.git"
+  },
+  "keywords": [
+    "smartflat",
+    "webhook",
+    "api",
+    "devices",
+    "smarthome",
+    "internet",
+    "of",
+    "things"
+  ],
+  "author": "Florian Wendelborn",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dodekeract/smartflat-webhook-api/issues"
+  },
+  "homepage": "https://github.com/dodekeract/smartflat-webhook-api#readme"
+}
